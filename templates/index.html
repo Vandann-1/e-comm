@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Showroom</title>
+    <style>
+        :root {
+            --primary-color: #0d47a1;
+            --secondary-color: #00796b;
+            --text-dark: #1e3a5f;
+            --text-light: #f4f7f9;
+            --bg-light: #f4f7f9;
+            --bg-dark: #1e3a5f;
+            --shadow-light: rgba(0, 0, 0, 0.08);
+            --shadow-heavy: rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            background-color: #fff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px var(--shadow-light);
+            display: flex;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        @media (min-width: 900px) {
+            .container {
+                flex-direction: row;
+            }
+        }
+
+        .hero-panel {
+            flex: 1.5;
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-panel h2 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .hero-panel .hero-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+        }
+
+        .hero-details {
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .product-list-panel {
+            flex: 1;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .product-list-panel h3 {
+            font-size: 2rem;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 0.5rem;
+        }
+
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e0e0e0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .product-item:hover {
+            background-color: #f9f9f9;
+        }
+
+        .product-item:last-child {
+            border-bottom: none;
+        }
+
+        .product-info {
+            flex-grow: 1;
+        }
+
+        .product-info h4 {
+            font-size: 1.2rem;
+            margin: 0;
+            color: var(--primary-color);
+        }
+
+        .product-info span {
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        .product-item-price {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="hero-panel">
+            {% with first_product=product|first %}
+            <h2>{{ first_product.name }}</h2>
+            <div class="hero-price">${{ first_product.price }}</div>
+            <div class="hero-details">
+                <p><strong>Category:</strong> {{ first_product.category }}</p>
+                <p><strong>Stock:</strong> {{ first_product.stock }} available</p>
+                <p><strong>Created On:</strong> {{ first_product.created_at }}</p>
+            </div>
+            {% endwith %}
+        </div>
+
+        <div class="product-list-panel">
+            <h3>More Products</h3>
+            {% for pr in product %}
+                <div class="product-item">
+                    <div class="product-info">
+                        <h4>{{ pr.name }}</h4>
+                        <span>Category: {{ pr.category }} | Stock: {{ pr.stock }}</span>
+                    </div>
+                    <div class="product-item-price">${{ pr.price }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>
